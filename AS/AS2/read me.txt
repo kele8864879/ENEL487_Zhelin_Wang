@@ -2,7 +2,7 @@ The assignment has three file, a main.cpp, an input.txt and an output.txt.
 The main function has three part, they are batch mode function( and batch mode calculation), interactive function, and 
 class Complex which works for the calculation. I made the guide interface, so it should be easy to follow. I also post some 
 running result at the folder.
-The program can running the TXT file, but it has some bug that I do not know how to fix when running PYTHON file.
+The program can running the TXT file.
 The old version ( like the version before 2012 year? ) v++ might cannot run the program, so please update the version
 of g++.
 Please go to line 217 which at the batch mode function to change the input file.
