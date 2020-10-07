@@ -4,3 +4,4 @@
 4. I set the maximun input data size is 10 word. so if you enter over 10 word, there will be a new line to enter.
 5. enter 'help' to get help.
 6.that's it :D.
+7.I add an error function for lab2 at 2020.10.7. 3pm. Sorry I forget to write it.
