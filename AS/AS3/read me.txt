@@ -1,0 +1,8 @@
+It is the read me for AS3
+Design theory:  User enter a command string to console, then the code will seperate string to different
+part by find the "space" between number and command in the string.  the catched value will be stored in a double array
+n[3]. then according to n[3]'s value to run different algorithm get answer.
+
+The code can do all of the required calculation, and it can recognize the mistake in division and inv function (divide by 0).
+it can also recognize the wrong command. However, it can not deal with the wrong value, like A a 1 v c. 
+The input format is like A 1 2 3 4. please do not enter two space between values, like A  1  2  3  4.
