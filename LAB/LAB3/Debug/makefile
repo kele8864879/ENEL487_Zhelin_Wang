@@ -10,7 +10,6 @@ RM := rm -rf
 -include sources.mk
 -include Drivers/STM32F1xx_HAL_Driver/Src/subdir.mk
 -include Core/Startup/subdir.mk
--include Core/Src/usr/subdir.mk
 -include Core/Src/subdir.mk
 -include subdir.mk
 -include objects.mk
@@ -47,8 +46,8 @@ lab3.bin \
 all: lab3.elf secondary-outputs
 
 # Tool invocations
-lab3.elf: $(OBJS) $(USER_OBJS) C:\Users\61644\Desktop\ENEL487_ASSIGNMENT\ENEL487_Zhelin_Wang\LAB\LAB3\STM32F103RBTX_FLASH.ld
-	arm-none-eabi-gcc -o "lab3.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\61644\Desktop\ENEL487_ASSIGNMENT\ENEL487_Zhelin_Wang\LAB\LAB3\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="lab3.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+lab3.elf: $(OBJS) $(USER_OBJS) C:\Users\61644\Desktop\ENEL487_ASSIGNMENT\ENEL487_Zhelin_Wang\LAB\Lab3\STM32F103RBTX_FLASH.ld
+	arm-none-eabi-gcc -o "lab3.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\61644\Desktop\ENEL487_ASSIGNMENT\ENEL487_Zhelin_Wang\LAB\Lab3\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="lab3.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

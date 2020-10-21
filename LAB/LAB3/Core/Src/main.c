@@ -1,4 +1,4 @@
-
+/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
   * @file           : main.c
@@ -19,7 +19,6 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "stdio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -43,7 +42,6 @@
 /* Private variables ---------------------------------------------------------*/
 TIM_HandleTypeDef htim4;
 
-UART_HandleTypeDef huart2;
 UART_HandleTypeDef huart3;
 
 /* USER CODE BEGIN PV */
@@ -53,22 +51,19 @@ UART_HandleTypeDef huart3;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-static void MX_USART2_UART_Init(void);
-static void MX_USART3_UART_Init(void);
 static void MX_TIM4_Init(void);
+static void MX_USART3_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
- int8_t i;flag;
+int8_t i;flag;
  uint8_t *p;
  uint16_t period;
  uint8_t cliBufferTX[200];
  uint8_t cliBufferRX[20];
-
 /* USER CODE END 0 */
 
 /**
@@ -99,69 +94,66 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_USART2_UART_Init();
-  MX_USART3_UART_Init();
   MX_TIM4_Init();
+  MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  HAL_TIM_Base_Start(&htim4);
+  HAL_TIM_Base_Start(&htim4);              //running tim4
 
-  strcpy((char*)cliBufferTX, "\x1b[2J");                                         /*clear the screen*/
-  HAL_UART_Transmit(&huart3, cliBufferTX, strlen((char*)cliBufferTX),1000);
-
-  strcpy((char*)cliBufferTX, "\x1b[10;r");                                       /*scroll window*/
-  HAL_UART_Transmit(&huart3, cliBufferTX, strlen((char*)cliBufferTX),1000);
-
-  strcpy((char*)cliBufferTX, "\x1b[10;0H");                                      /*position the cursor*/
-  HAL_UART_Transmit(&huart3, cliBufferTX, strlen((char*)cliBufferTX),1000);
-
-   strcpy((char*)cliBufferTX, "Testing CLI!\r\n");
+   strcpy((char*)cliBufferTX, "\x1b[2J");                                         /*clear the screen*/
    HAL_UART_Transmit(&huart3, cliBufferTX, strlen((char*)cliBufferTX),1000);
 
-   HAL_UART_Receive_IT(&huart3,cliBufferRX, 1);
-   i=0;
-   period=10000;
-   flag=0;
-   uint16_t counter=0,temp,timer;
-   int8_t  j;
-   char data[10],escape[10];
+   strcpy((char*)cliBufferTX, "\x1b[10;r");                                       /*scroll window*/
+   HAL_UART_Transmit(&huart3, cliBufferTX, strlen((char*)cliBufferTX),1000);
+
+   strcpy((char*)cliBufferTX, "\x1b[10;0H");                                      /*position the cursor*/
+   HAL_UART_Transmit(&huart3, cliBufferTX, strlen((char*)cliBufferTX),1000);
+
+    strcpy((char*)cliBufferTX, "Testing CLI!\r\n");
+    HAL_UART_Transmit(&huart3, cliBufferTX, strlen((char*)cliBufferTX),1000);
+
+    HAL_UART_Receive_IT(&huart3,cliBufferRX, 1);
+    i=0;
+    period=10000;
+    flag=0;
+    uint16_t counter=0,temp,timer;
+    int8_t  j;
+    char data[10],escape[10];
   while (1)
   {
-      timer = __HAL_TIM_GET_COUNTER(&htim4);
-	  if(flag==3)
-	  	    {
-	  		  if (!(timer%period))
-	  	  	  HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
+	  timer = __HAL_TIM_GET_COUNTER(&htim4);
+	  	  if(flag==3)                        //flag = 3 means change happen
+	  	  	    {
+	  	  		  if (!(timer%period))
+	  	  	  	  HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
 
-	  	    }
-
-
-
-	  if(timer==0)
-	   {
-		  counter++;
-		  temp = counter;
-		  for( j=0;j<5;j++)
-		   {  data[4-j]=(temp%10)^0x30;
-		      temp=temp/10;
-		   }
-
-		  data[5]='\0';
-		  strcpy((char*)escape, "\x1b[s");                                            /*保存光标*/
-	      HAL_UART_Transmit(&huart3, escape, strlen((char*)escape),1000);
-	      strcpy((char*)escape, "\x1b[0;0H");                                         /*光标在0行0列*/
-   	      HAL_UART_Transmit(&huart3, escape, strlen((char*)escape),1000);
-   	      HAL_UART_Transmit(&huart3, data, strlen((char*)data),1000);
-   	      strcpy((char*)escape, "\x1b[u");                                            /*恢复光标*/
-   	      HAL_UART_Transmit(&huart3, escape, strlen((char*)escape),1000);
-
-	   }
+	  	  	    }
 
 
+
+	  	  if(timer==0)        //refresh the page every second
+	  	   {
+	  		  counter++;
+	  		  temp = counter;
+	  		  for( j=0;j<5;j++) 	//	get formal output
+	  		   {  data[4-j]=(temp%10)^0x30;
+	  		      temp=temp/10;
+	  		   }
+
+	  		  data[5]='\0';
+	  		  strcpy((char*)escape, "\x1b[s");                                            /*save cursor*/
+	  	      HAL_UART_Transmit(&huart3, escape, strlen((char*)escape),1000);
+	  	      strcpy((char*)escape, "\x1b[0;0H");                                         /*cursor go begin*/
+	     	      HAL_UART_Transmit(&huart3, escape, strlen((char*)escape),1000);
+	     	      HAL_UART_Transmit(&huart3, data, strlen((char*)data),1000);
+	     	      strcpy((char*)escape, "\x1b[u");
+	     	      HAL_UART_Transmit(&huart3, escape, strlen((char*)escape),1000);
+
+	  	   }
 
     /* USER CODE END WHILE */
 
@@ -251,39 +243,6 @@ static void MX_TIM4_Init(void)
 }
 
 /**
-  * @brief USART2 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_USART2_UART_Init(void)
-{
-
-  /* USER CODE BEGIN USART2_Init 0 */
-
-  /* USER CODE END USART2_Init 0 */
-
-  /* USER CODE BEGIN USART2_Init 1 */
-
-  /* USER CODE END USART2_Init 1 */
-  huart2.Instance = USART2;
-  huart2.Init.BaudRate = 115200;
-  huart2.Init.WordLength = UART_WORDLENGTH_8B;
-  huart2.Init.StopBits = UART_STOPBITS_1;
-  huart2.Init.Parity = UART_PARITY_NONE;
-  huart2.Init.Mode = UART_MODE_TX_RX;
-  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
-  if (HAL_UART_Init(&huart2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN USART2_Init 2 */
-
-  /* USER CODE END USART2_Init 2 */
-
-}
-
-/**
   * @brief USART3 Initialization Function
   * @param None
   * @retval None
@@ -327,6 +286,7 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
@@ -340,25 +300,24 @@ static void MX_GPIO_Init(void)
 
 }
 
-
 /* USER CODE BEGIN 4 */
 void HAL_UART_RxCpltCallback (UART_HandleTypeDef * huart)
 {
 	//UNUSED(huart);
 	cliBufferTX[i] = cliBufferRX[0];
-	if( cliBufferTX[i]=='\r')
+	if( cliBufferTX[i]=='\r')                             //get enter command
 	{
-		cliBufferTX[i]='\0';
-		cliBufferRX[0]='\r';
-		cliBufferRX[1]='\n';
+		cliBufferTX[i]='\0';                              //end input
+		cliBufferRX[0]='\r';                              //putty enter
+		cliBufferRX[1]='\n';                              //putty go next line
 		HAL_UART_Transmit(&huart3,cliBufferRX,2,1000);
-		strcpy((char*)cliBufferRX, "\x1b[s");                                            /*保存光标*/
+		strcpy((char*)cliBufferRX, "\x1b[s");                                            /*save cursor*/
         HAL_UART_Transmit(&huart3, cliBufferRX, strlen((char*)cliBufferRX),1000);
-        strcpy((char*)cliBufferRX, "\x1b[9;0H");                                         /*光标在9行0列*/
+        strcpy((char*)cliBufferRX, "\x1b[9;0H");                                         /*cursor at 9.0*/
         HAL_UART_Transmit(&huart3, cliBufferRX, strlen((char*)cliBufferRX),1000);
-        strcpy((char*)cliBufferRX, "\x1b[1J");                                           /*擦除屏幕首部到光标位置*/
+        strcpy((char*)cliBufferRX, "\x1b[1J");                                           /*clean the line*/
         HAL_UART_Transmit(&huart3, cliBufferRX, strlen((char*)cliBufferRX),1000);
-        strcpy((char*)cliBufferRX, "\x1b[2;0H");                                         /*光标在0行0列*/
+        strcpy((char*)cliBufferRX, "\x1b[2;0H");                                         /*光cursor at second line*/
         HAL_UART_Transmit(&huart3, cliBufferRX, strlen((char*)cliBufferRX),1000);
 		if(strcmp(cliBufferTX,"turn")==0)
 		  {  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
@@ -418,16 +377,16 @@ void HAL_UART_RxCpltCallback (UART_HandleTypeDef * huart)
 
 	 }
 
-	else if( cliBufferTX[i]=='\177')
+	else if( cliBufferTX[i]=='\177')								//if it is backspace,
 		{
 		  p=&cliBufferTX[i];
 		  HAL_UART_Transmit(&huart3,p,1,1000);
 		  i--;
-		  if(i<0) i=0;
+		  if(i<0) i=0;                                              //if it is begin location
 		  HAL_UART_Receive_IT(&huart3,cliBufferRX, 1);
 		}
 
-	     else
+	     else                                                       // for normal and correct input
 		{
 		 p=&cliBufferTX[i];
 		 HAL_UART_Transmit(&huart3,p,1,1000);
@@ -436,7 +395,6 @@ void HAL_UART_RxCpltCallback (UART_HandleTypeDef * huart)
 
 		}
 }
-
 /* USER CODE END 4 */
 
 /**
