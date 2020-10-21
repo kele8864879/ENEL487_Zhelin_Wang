@@ -139,14 +139,14 @@ int main(void)
  800018a:	4876      	ldr	r0, [pc, #472]	; (8000364 <main+0x1f4>)
  800018c:	f001 fcd6 	bl	8001b3c <HAL_TIM_Base_Start>
 
-   strcpy((char*)cliBufferTX, "\x1b[2J");                                         /*clear the screen*/
+  strcpy((char*)cliBufferTX, "\x1b[2J");                                         /*clear the screen*/
  8000190:	4b75      	ldr	r3, [pc, #468]	; (8000368 <main+0x1f8>)
  8000192:	4a76      	ldr	r2, [pc, #472]	; (800036c <main+0x1fc>)
  8000194:	6810      	ldr	r0, [r2, #0]
  8000196:	6018      	str	r0, [r3, #0]
  8000198:	7912      	ldrb	r2, [r2, #4]
  800019a:	711a      	strb	r2, [r3, #4]
-   HAL_UART_Transmit(&huart3, cliBufferTX, strlen((char*)cliBufferTX),1000);
+  HAL_UART_Transmit(&huart3, cliBufferTX, strlen((char*)cliBufferTX),1000);
  800019c:	4872      	ldr	r0, [pc, #456]	; (8000368 <main+0x1f8>)
  800019e:	f7ff ffdf 	bl	8000160 <strlen>
  80001a2:	4603      	mov	r3, r0
@@ -156,7 +156,7 @@ int main(void)
  80001ac:	4870      	ldr	r0, [pc, #448]	; (8000370 <main+0x200>)
  80001ae:	f001 ff6a 	bl	8002086 <HAL_UART_Transmit>
 
-   strcpy((char*)cliBufferTX, "\x1b[10;r");                                       /*scroll window*/
+  strcpy((char*)cliBufferTX, "\x1b[10;r");                                       /*scroll window*/
  80001b2:	4b6d      	ldr	r3, [pc, #436]	; (8000368 <main+0x1f8>)
  80001b4:	4a6f      	ldr	r2, [pc, #444]	; (8000374 <main+0x204>)
  80001b6:	6810      	ldr	r0, [r2, #0]
@@ -165,7 +165,7 @@ int main(void)
  80001bc:	7992      	ldrb	r2, [r2, #6]
  80001be:	8099      	strh	r1, [r3, #4]
  80001c0:	719a      	strb	r2, [r3, #6]
-   HAL_UART_Transmit(&huart3, cliBufferTX, strlen((char*)cliBufferTX),1000);
+  HAL_UART_Transmit(&huart3, cliBufferTX, strlen((char*)cliBufferTX),1000);
  80001c2:	4869      	ldr	r0, [pc, #420]	; (8000368 <main+0x1f8>)
  80001c4:	f7ff ffcc 	bl	8000160 <strlen>
  80001c8:	4603      	mov	r3, r0
@@ -175,13 +175,13 @@ int main(void)
  80001d2:	4867      	ldr	r0, [pc, #412]	; (8000370 <main+0x200>)
  80001d4:	f001 ff57 	bl	8002086 <HAL_UART_Transmit>
 
-   strcpy((char*)cliBufferTX, "\x1b[10;0H");                                      /*position the cursor*/
+  strcpy((char*)cliBufferTX, "\x1b[10;0H");                                      /*position the cursor*/
  80001d8:	4a63      	ldr	r2, [pc, #396]	; (8000368 <main+0x1f8>)
  80001da:	4b67      	ldr	r3, [pc, #412]	; (8000378 <main+0x208>)
  80001dc:	cb03      	ldmia	r3!, {r0, r1}
  80001de:	6010      	str	r0, [r2, #0]
  80001e0:	6051      	str	r1, [r2, #4]
-   HAL_UART_Transmit(&huart3, cliBufferTX, strlen((char*)cliBufferTX),1000);
+  HAL_UART_Transmit(&huart3, cliBufferTX, strlen((char*)cliBufferTX),1000);
  80001e2:	4861      	ldr	r0, [pc, #388]	; (8000368 <main+0x1f8>)
  80001e4:	f7ff ffbc 	bl	8000160 <strlen>
  80001e8:	4603      	mov	r3, r0
@@ -191,7 +191,7 @@ int main(void)
  80001f2:	485f      	ldr	r0, [pc, #380]	; (8000370 <main+0x200>)
  80001f4:	f001 ff47 	bl	8002086 <HAL_UART_Transmit>
 
-    strcpy((char*)cliBufferTX, "Testing CLI!\r\n");
+   strcpy((char*)cliBufferTX, "Testing CLI!\r\n");
  80001f8:	4a5b      	ldr	r2, [pc, #364]	; (8000368 <main+0x1f8>)
  80001fa:	4b60      	ldr	r3, [pc, #384]	; (800037c <main+0x20c>)
  80001fc:	4614      	mov	r4, r2
@@ -203,7 +203,7 @@ int main(void)
  8000208:	789b      	ldrb	r3, [r3, #2]
  800020a:	81a2      	strh	r2, [r4, #12]
  800020c:	73a3      	strb	r3, [r4, #14]
-    HAL_UART_Transmit(&huart3, cliBufferTX, strlen((char*)cliBufferTX),1000);
+   HAL_UART_Transmit(&huart3, cliBufferTX, strlen((char*)cliBufferTX),1000);
  800020e:	4856      	ldr	r0, [pc, #344]	; (8000368 <main+0x1f8>)
  8000210:	f7ff ffa6 	bl	8000160 <strlen>
  8000214:	4603      	mov	r3, r0
@@ -213,42 +213,42 @@ int main(void)
  800021e:	4854      	ldr	r0, [pc, #336]	; (8000370 <main+0x200>)
  8000220:	f001 ff31 	bl	8002086 <HAL_UART_Transmit>
 
-    HAL_UART_Receive_IT(&huart3,cliBufferRX, 1);
+   HAL_UART_Receive_IT(&huart3,cliBufferRX, 1);
  8000224:	2201      	movs	r2, #1
  8000226:	4956      	ldr	r1, [pc, #344]	; (8000380 <main+0x210>)
  8000228:	4851      	ldr	r0, [pc, #324]	; (8000370 <main+0x200>)
  800022a:	f001 ffbe 	bl	80021aa <HAL_UART_Receive_IT>
-    i=0;
+   i=0;
  800022e:	4b55      	ldr	r3, [pc, #340]	; (8000384 <main+0x214>)
  8000230:	2200      	movs	r2, #0
  8000232:	701a      	strb	r2, [r3, #0]
-    period=10000;
+   period=10000;
  8000234:	4b54      	ldr	r3, [pc, #336]	; (8000388 <main+0x218>)
  8000236:	f242 7210 	movw	r2, #10000	; 0x2710
  800023a:	801a      	strh	r2, [r3, #0]
-    flag=0;
+   flag=0;
  800023c:	4b53      	ldr	r3, [pc, #332]	; (800038c <main+0x21c>)
  800023e:	2200      	movs	r2, #0
  8000240:	601a      	str	r2, [r3, #0]
-    uint16_t counter=0,temp,timer;
+   uint16_t counter=0,temp,timer;
  8000242:	2300      	movs	r3, #0
  8000244:	83fb      	strh	r3, [r7, #30]
-    int8_t  j;
-    char data[10],escape[10];
+   int8_t  j;
+   char data[10],escape[10];
   while (1)
   {
-	  timer = __HAL_TIM_GET_COUNTER(&htim4);
+      timer = __HAL_TIM_GET_COUNTER(&htim4);
  8000246:	4b47      	ldr	r3, [pc, #284]	; (8000364 <main+0x1f4>)
  8000248:	681b      	ldr	r3, [r3, #0]
  800024a:	6a5b      	ldr	r3, [r3, #36]	; 0x24
  800024c:	833b      	strh	r3, [r7, #24]
-	  	  if(flag==3)                        //flag = 3 means change happen
+	  if(flag==3)                        //flag = 3 means change happen
  800024e:	4b4f      	ldr	r3, [pc, #316]	; (800038c <main+0x21c>)
  8000250:	681b      	ldr	r3, [r3, #0]
  8000252:	2b03      	cmp	r3, #3
  8000254:	d10e      	bne.n	8000274 <main+0x104>
-	  	  	    {
-	  	  		  if (!(timer%period))
+	  	    {
+	  		  if (!(timer%period))
  8000256:	4b4c      	ldr	r3, [pc, #304]	; (8000388 <main+0x218>)
  8000258:	881a      	ldrh	r2, [r3, #0]
  800025a:	8b3b      	ldrh	r3, [r7, #24]
@@ -258,32 +258,32 @@ int main(void)
  8000266:	b29b      	uxth	r3, r3
  8000268:	2b00      	cmp	r3, #0
  800026a:	d103      	bne.n	8000274 <main+0x104>
-	  	  	  	  HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
+	  	  	  HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5);
  800026c:	2120      	movs	r1, #32
  800026e:	4848      	ldr	r0, [pc, #288]	; (8000390 <main+0x220>)
  8000270:	f000 ffdf 	bl	8001232 <HAL_GPIO_TogglePin>
 
-	  	  	    }
+	  	    }
 
 
 
-	  	  if(timer==0)        //refresh the page every second
+	  if(timer==0)        //refresh the page every second
  8000274:	8b3b      	ldrh	r3, [r7, #24]
  8000276:	2b00      	cmp	r3, #0
  8000278:	d1e5      	bne.n	8000246 <main+0xd6>
-	  	   {
-	  		  counter++;
+	   {
+		  counter++;
  800027a:	8bfb      	ldrh	r3, [r7, #30]
  800027c:	3301      	adds	r3, #1
  800027e:	83fb      	strh	r3, [r7, #30]
-	  		  temp = counter;
+		  temp = counter;
  8000280:	8bfb      	ldrh	r3, [r7, #30]
  8000282:	83bb      	strh	r3, [r7, #28]
-	  		  for( j=0;j<5;j++) 	//	get formal output
+		  for( j=0;j<5;j++) 	//	get formal output
  8000284:	2300      	movs	r3, #0
  8000286:	76fb      	strb	r3, [r7, #27]
  8000288:	e023      	b.n	80002d2 <main+0x162>
-	  		   {  data[4-j]=(temp%10)^0x30;
+		   {  data[4-j]=(temp%10)^0x30;
  800028a:	8bba      	ldrh	r2, [r7, #28]
  800028c:	4b41      	ldr	r3, [pc, #260]	; (8000394 <main+0x224>)
  800028e:	fba3 1302 	umull	r1, r3, r3, r2
@@ -302,13 +302,13 @@ int main(void)
  80002b0:	f107 0120 	add.w	r1, r7, #32
  80002b4:	440b      	add	r3, r1
  80002b6:	f803 2c14 	strb.w	r2, [r3, #-20]
-	  		      temp=temp/10;
+		      temp=temp/10;
  80002ba:	8bbb      	ldrh	r3, [r7, #28]
  80002bc:	4a35      	ldr	r2, [pc, #212]	; (8000394 <main+0x224>)
  80002be:	fba2 2303 	umull	r2, r3, r2, r3
  80002c2:	08db      	lsrs	r3, r3, #3
  80002c4:	83bb      	strh	r3, [r7, #28]
-	  		  for( j=0;j<5;j++) 	//	get formal output
+		  for( j=0;j<5;j++) 	//	get formal output
  80002c6:	f997 301b 	ldrsb.w	r3, [r7, #27]
  80002ca:	b2db      	uxtb	r3, r3
  80002cc:	3301      	adds	r3, #1
@@ -317,16 +317,16 @@ int main(void)
  80002d2:	f997 301b 	ldrsb.w	r3, [r7, #27]
  80002d6:	2b04      	cmp	r3, #4
  80002d8:	ddd7      	ble.n	800028a <main+0x11a>
-	  		   }
+		   }
 
-	  		  data[5]='\0';
+		  data[5]='\0';
  80002da:	2300      	movs	r3, #0
  80002dc:	747b      	strb	r3, [r7, #17]
-	  		  strcpy((char*)escape, "\x1b[s");                                            /*save cursor*/
+		  strcpy((char*)escape, "\x1b[s");                                            /*save cursor*/
  80002de:	463b      	mov	r3, r7
  80002e0:	4a2d      	ldr	r2, [pc, #180]	; (8000398 <main+0x228>)
  80002e2:	601a      	str	r2, [r3, #0]
-	  	      HAL_UART_Transmit(&huart3, escape, strlen((char*)escape),1000);
+	      HAL_UART_Transmit(&huart3, escape, strlen((char*)escape),1000);
  80002e4:	463b      	mov	r3, r7
  80002e6:	4618      	mov	r0, r3
  80002e8:	f7ff ff3a 	bl	8000160 <strlen>
@@ -336,7 +336,7 @@ int main(void)
  80002f2:	f44f 737a 	mov.w	r3, #1000	; 0x3e8
  80002f6:	481e      	ldr	r0, [pc, #120]	; (8000370 <main+0x200>)
  80002f8:	f001 fec5 	bl	8002086 <HAL_UART_Transmit>
-	  	      strcpy((char*)escape, "\x1b[0;0H");                                         /*cursor go begin*/
+	      strcpy((char*)escape, "\x1b[0;0H");                                         /*cursor go begin*/
  80002fc:	463b      	mov	r3, r7
  80002fe:	4a27      	ldr	r2, [pc, #156]	; (800039c <main+0x22c>)
  8000300:	e892 0003 	ldmia.w	r2, {r0, r1}
@@ -346,7 +346,7 @@ int main(void)
  800030a:	3302      	adds	r3, #2
  800030c:	0c0a      	lsrs	r2, r1, #16
  800030e:	701a      	strb	r2, [r3, #0]
-	     	      HAL_UART_Transmit(&huart3, escape, strlen((char*)escape),1000);
+   	      HAL_UART_Transmit(&huart3, escape, strlen((char*)escape),1000);
  8000310:	463b      	mov	r3, r7
  8000312:	4618      	mov	r0, r3
  8000314:	f7ff ff24 	bl	8000160 <strlen>
@@ -356,7 +356,7 @@ int main(void)
  800031e:	f44f 737a 	mov.w	r3, #1000	; 0x3e8
  8000322:	4813      	ldr	r0, [pc, #76]	; (8000370 <main+0x200>)
  8000324:	f001 feaf 	bl	8002086 <HAL_UART_Transmit>
-	     	      HAL_UART_Transmit(&huart3, data, strlen((char*)data),1000);
+   	      HAL_UART_Transmit(&huart3, data, strlen((char*)data),1000);
  8000328:	f107 030c 	add.w	r3, r7, #12
  800032c:	4618      	mov	r0, r3
  800032e:	f7ff ff17 	bl	8000160 <strlen>
@@ -366,11 +366,11 @@ int main(void)
  800033a:	f44f 737a 	mov.w	r3, #1000	; 0x3e8
  800033e:	480c      	ldr	r0, [pc, #48]	; (8000370 <main+0x200>)
  8000340:	f001 fea1 	bl	8002086 <HAL_UART_Transmit>
-	     	      strcpy((char*)escape, "\x1b[u");
+   	      strcpy((char*)escape, "\x1b[u");
  8000344:	463b      	mov	r3, r7
  8000346:	4a16      	ldr	r2, [pc, #88]	; (80003a0 <main+0x230>)
  8000348:	601a      	str	r2, [r3, #0]
-	     	      HAL_UART_Transmit(&huart3, escape, strlen((char*)escape),1000);
+   	      HAL_UART_Transmit(&huart3, escape, strlen((char*)escape),1000);
  800034a:	463b      	mov	r3, r7
  800034c:	4618      	mov	r0, r3
  800034e:	f7ff ff07 	bl	8000160 <strlen>
@@ -380,7 +380,7 @@ int main(void)
  8000358:	f44f 737a 	mov.w	r3, #1000	; 0x3e8
  800035c:	4804      	ldr	r0, [pc, #16]	; (8000370 <main+0x200>)
  800035e:	f001 fe92 	bl	8002086 <HAL_UART_Transmit>
-	  timer = __HAL_TIM_GET_COUNTER(&htim4);
+      timer = __HAL_TIM_GET_COUNTER(&htim4);
  8000362:	e770      	b.n	8000246 <main+0xd6>
  8000364:	2000002c 	.word	0x2000002c
  8000368:	200000b4 	.word	0x200000b4
@@ -1078,7 +1078,7 @@ void HAL_UART_RxCpltCallback (UART_HandleTypeDef * huart)
  80007f4:	4810      	ldr	r0, [pc, #64]	; (8000838 <HAL_UART_RxCpltCallback+0x2b0>)
  80007f6:	f001 fc46 	bl	8002086 <HAL_UART_Transmit>
 			  }
-        strcpy((char*)cliBufferTX, "\x1b[u");                                                 /*恢复光标*/
+        strcpy((char*)cliBufferTX, "\x1b[u");                                                 /**/
  80007fa:	4b0e      	ldr	r3, [pc, #56]	; (8000834 <HAL_UART_RxCpltCallback+0x2ac>)
  80007fc:	4a21      	ldr	r2, [pc, #132]	; (8000884 <HAL_UART_RxCpltCallback+0x2fc>)
  80007fe:	6810      	ldr	r0, [r2, #0]
@@ -1278,9 +1278,9 @@ void HAL_MspInit(void)
 
   /* System interrupt init*/
 
-  /** DISABLE: JTAG-DP Disabled and SW-DP Disabled
+  /** NOJTAG: JTAG-DP Disabled and SW-DP Enabled
   */
-  __HAL_AFIO_REMAP_SWJ_DISABLE();
+  __HAL_AFIO_REMAP_SWJ_NOJTAG();
  8000982:	4b0a      	ldr	r3, [pc, #40]	; (80009ac <HAL_MspInit+0x60>)
  8000984:	685b      	ldr	r3, [r3, #4]
  8000986:	60fb      	str	r3, [r7, #12]
@@ -1288,7 +1288,7 @@ void HAL_MspInit(void)
  800098a:	f023 63e0 	bic.w	r3, r3, #117440512	; 0x7000000
  800098e:	60fb      	str	r3, [r7, #12]
  8000990:	68fb      	ldr	r3, [r7, #12]
- 8000992:	f043 6380 	orr.w	r3, r3, #67108864	; 0x4000000
+ 8000992:	f043 7300 	orr.w	r3, r3, #33554432	; 0x2000000
  8000996:	60fb      	str	r3, [r7, #12]
  8000998:	4a04      	ldr	r2, [pc, #16]	; (80009ac <HAL_MspInit+0x60>)
  800099a:	68fb      	ldr	r3, [r7, #12]
