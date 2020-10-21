@@ -1,0 +1,7 @@
+enter help to get help
+enter 'turn' to open and close LED
+ enter 'query' to see the state of LED
+ enter 'Change'to Change the period of the Blinking light
+
+the baudrate of usart3 is 9600, so if please do not use 115200. I get an error when I configue baudrate at 115200.
+I write the explaination in my code
