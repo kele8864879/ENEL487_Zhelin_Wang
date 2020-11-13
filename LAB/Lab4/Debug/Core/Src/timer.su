@@ -1,0 +1,3 @@
+timer.c:10:9:timer_start	16	static
+timer.c:18:10:timer_stop	24	static
+timer.c:27:6:tickasc	48	static

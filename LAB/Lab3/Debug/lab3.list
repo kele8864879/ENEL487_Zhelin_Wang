@@ -838,7 +838,7 @@ void HAL_UART_RxCpltCallback (UART_HandleTypeDef * huart)
  8000638:	497d      	ldr	r1, [pc, #500]	; (8000830 <HAL_UART_RxCpltCallback+0x2a8>)
  800063a:	487f      	ldr	r0, [pc, #508]	; (8000838 <HAL_UART_RxCpltCallback+0x2b0>)
  800063c:	f001 fd23 	bl	8002086 <HAL_UART_Transmit>
-        strcpy((char*)cliBufferRX, "\x1b[2;0H");                                         /*光cursor at second line*/
+        strcpy((char*)cliBufferRX, "\x1b[2;0H");                                         /*cursor at second line*/
  8000640:	4b7b      	ldr	r3, [pc, #492]	; (8000830 <HAL_UART_RxCpltCallback+0x2a8>)
  8000642:	4a81      	ldr	r2, [pc, #516]	; (8000848 <HAL_UART_RxCpltCallback+0x2c0>)
  8000644:	6810      	ldr	r0, [r2, #0]
@@ -903,7 +903,7 @@ void HAL_UART_RxCpltCallback (UART_HandleTypeDef * huart)
 
 		  }
 
-		else if (strcmp(cliBufferTX,"query")==0)
+		else if (strcmp(cliBufferTX,"query")==0)                	//	used to judge query
  80006bc:	4967      	ldr	r1, [pc, #412]	; (800085c <HAL_UART_RxCpltCallback+0x2d4>)
  80006be:	485d      	ldr	r0, [pc, #372]	; (8000834 <HAL_UART_RxCpltCallback+0x2ac>)
  80006c0:	f7ff fd44 	bl	800014c <strcmp>
@@ -967,7 +967,7 @@ void HAL_UART_RxCpltCallback (UART_HandleTypeDef * huart)
 
 			  }
 		   }
-		else if (strcmp(cliBufferTX,"change")==0)
+		else if (strcmp(cliBufferTX,"change")==0)				//	used to judge change
  8000728:	494f      	ldr	r1, [pc, #316]	; (8000868 <HAL_UART_RxCpltCallback+0x2e0>)
  800072a:	4842      	ldr	r0, [pc, #264]	; (8000834 <HAL_UART_RxCpltCallback+0x2ac>)
  800072c:	f7ff fd0e 	bl	800014c <strcmp>
@@ -1034,7 +1034,7 @@ void HAL_UART_RxCpltCallback (UART_HandleTypeDef * huart)
 		      }
 
 		   }
-		 else if (strcmp(cliBufferTX,"help")==0)
+		 else if (strcmp(cliBufferTX,"help")==0)                 //	used to judge help
  80007a4:	4934      	ldr	r1, [pc, #208]	; (8000878 <HAL_UART_RxCpltCallback+0x2f0>)
  80007a6:	4823      	ldr	r0, [pc, #140]	; (8000834 <HAL_UART_RxCpltCallback+0x2ac>)
  80007a8:	f7ff fcd0 	bl	800014c <strcmp>
