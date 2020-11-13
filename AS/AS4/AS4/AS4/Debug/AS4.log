@@ -1,4 +1,4 @@
 ﻿  main.c
-C:\Users\61644\Desktop\ENEL487_ASSIGNMENT\ENEL487_Zhelin_Wang\AS\AS4\AS4\AS4\main.c(39,22): warning C4013: “malloc”未定义；假设外部返回 int
-C:\Users\61644\Desktop\ENEL487_ASSIGNMENT\ENEL487_Zhelin_Wang\AS\AS4\AS4\AS4\main.c(69,6): warning C4013: “free”未定义；假设外部返回 int
+C:\Users\61644\Desktop\ENEL487_ASSIGNMENT\ENEL487_Zhelin_Wang\AS\AS4\AS4\AS4\main.c(40,22): warning C4013: “malloc”未定义；假设外部返回 int
+C:\Users\61644\Desktop\ENEL487_ASSIGNMENT\ENEL487_Zhelin_Wang\AS\AS4\AS4\AS4\main.c(70,6): warning C4013: “free”未定义；假设外部返回 int
   AS4.vcxproj -> C:\Users\61644\Desktop\ENEL487_ASSIGNMENT\ENEL487_Zhelin_Wang\AS\AS4\AS4\Debug\AS4.exe

@@ -22,11 +22,12 @@
 
 main(void)
 {
-	clock_t start, finish;
-	float  duration;
-	int size = 0;
-	char* test;
-	FILE* fp;
+	clock_t start, finish; // used to pick time by clock()
+	float  duration;		// Start - Finish
+	int size = 0;           // File size init
+	char* test;				//pointer to save file
+	FILE* fp;				//pointer to open txt
+
 	fp = fopen("wrnpc11.txt", "r");
 	if (fp == NULL)
 		return 1;
