@@ -185,29 +185,29 @@ int main(void)
 	   		            b_64 = rand();
 
 	   		            previous = timer_start();
-	   		            a_32+b_32;
+	   		            a_32+b_32;																	// add two random 32-bit integers
 	   		            tick1 = tick1 + timer_stop(previous);
 
 	   		            previous = timer_start();
-	   		            a_64+b_64;
+	   		            a_64+b_64;																	//add two random 64-bit integers
 	   		            tick2 = tick2 + timer_stop(previous);
 
 	   		            previous = timer_start();
-	   		            a_32*b_32;
+	   		            a_32*b_32;																	//multiply two random 32-bit integers
 	   		            tick3 = tick3 + timer_stop(previous);
 
 	   		            previous = timer_start();
-	   		            a_64*b_64;
+	   		            a_64*b_64;																	//multiply two random 64-bit integers
 	   		            tick4 = tick4 + timer_stop(previous);
 
 	   		            previous = timer_start();
 	   		            while(!b_32)b_32 = rand();													 //make sure  don't divide by zero.
-	   		            a_32/b_32;
+	   		            a_32/b_32;																	//divide two random 32-bit integers
 	   		            tick5 = tick5 + timer_stop(previous);
 
 	   		            previous = timer_start();
 	   		            while(!b_64)b_64 = rand();
-	   		            a_64/b_64;
+	   		            a_64/b_64;																	//divide two random 64-bit integers
 	   		            tick6 = tick6 + timer_stop(previous);
 
 
@@ -244,7 +244,7 @@ int main(void)
 	   		        HAL_UART_Transmit(&huart2, cliBufferTX, strlen((char*)cliBufferTX),1000);
 	   		        tickasc(tick6);
 
-	   		        tick1 = 0;
+	   		        tick1 = 0;															//copy an 8-byte struct using the assignment operator
 	   		        previous = timer_start();
 	   		        for (i = 0; i < 8; i++)
 	   		           {
@@ -252,7 +252,7 @@ int main(void)
 	   		           }
 	   		        tick1 = tick1 + timer_stop(previous);
 
-	   		        tick2 = 0;
+	   		        tick2 = 0;															//copy a 128-byte struct using the assignment operator
 	   		        previous = timer_start();
 	   		        for (i = 0; i < 128; i++)
 	   		           {
@@ -261,7 +261,7 @@ int main(void)
 	   		        tick2 = tick2 + timer_stop(previous);
 
 
-	   		        tick3 = 0;
+	   		        tick3 = 0;															//copy a 1024-byte struct using the assignment operator
 	   		        previous = timer_start();
 	   		        for (i = 0; i <1024; i++)
 	   		           {

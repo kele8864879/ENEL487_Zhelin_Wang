@@ -1,0 +1,3 @@
+The logic of getting operation time is take the time befor and after the operation and make calculation.
+The algorithum about taking time and tick transfer is in document timer.c
+I used Usert2 and bitrate is 9600. please enter correct bitrate in the putty.

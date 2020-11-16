@@ -432,7 +432,7 @@ int main(void)
  80003ea:	f000 fcc1 	bl	8000d70 <timer_start>
  80003ee:	4603      	mov	r3, r0
  80003f0:	f8a7 34da 	strh.w	r3, [r7, #1242]	; 0x4da
-	   		            a_32+b_32;
+	   		            a_32+b_32;																	// add two random 32-bit integers
 	   		            tick1 = tick1 + timer_stop(previous);
  80003f4:	f9b7 34da 	ldrsh.w	r3, [r7, #1242]	; 0x4da
  80003f8:	4618      	mov	r0, r3
@@ -447,7 +447,7 @@ int main(void)
  800040c:	f000 fcb0 	bl	8000d70 <timer_start>
  8000410:	4603      	mov	r3, r0
  8000412:	f8a7 34da 	strh.w	r3, [r7, #1242]	; 0x4da
-	   		            a_64+b_64;
+	   		            a_64+b_64;																	//add two random 64-bit integers
 	   		            tick2 = tick2 + timer_stop(previous);
  8000416:	f9b7 34da 	ldrsh.w	r3, [r7, #1242]	; 0x4da
  800041a:	4618      	mov	r0, r3
@@ -462,7 +462,7 @@ int main(void)
  800042e:	f000 fc9f 	bl	8000d70 <timer_start>
  8000432:	4603      	mov	r3, r0
  8000434:	f8a7 34da 	strh.w	r3, [r7, #1242]	; 0x4da
-	   		            a_32*b_32;
+	   		            a_32*b_32;																	//multiply two random 32-bit integers
 	   		            tick3 = tick3 + timer_stop(previous);
  8000438:	f9b7 34da 	ldrsh.w	r3, [r7, #1242]	; 0x4da
  800043c:	4618      	mov	r0, r3
@@ -477,7 +477,7 @@ int main(void)
  8000450:	f000 fc8e 	bl	8000d70 <timer_start>
  8000454:	4603      	mov	r3, r0
  8000456:	f8a7 34da 	strh.w	r3, [r7, #1242]	; 0x4da
-	   		            a_64*b_64;
+	   		            a_64*b_64;																	//multiply two random 64-bit integers
 	   		            tick4 = tick4 + timer_stop(previous);
  800045a:	f9b7 34da 	ldrsh.w	r3, [r7, #1242]	; 0x4da
  800045e:	4618      	mov	r0, r3
@@ -499,7 +499,7 @@ int main(void)
  8000486:	f8d7 3500 	ldr.w	r3, [r7, #1280]	; 0x500
  800048a:	2b00      	cmp	r3, #0
  800048c:	d0f7      	beq.n	800047e <main+0x30e>
-	   		            a_32/b_32;
+	   		            a_32/b_32;																	//divide two random 32-bit integers
 	   		            tick5 = tick5 + timer_stop(previous);
  800048e:	f9b7 34da 	ldrsh.w	r3, [r7, #1242]	; 0x4da
  8000492:	4618      	mov	r0, r3
@@ -537,7 +537,7 @@ int main(void)
  80004f6:	cb18      	ldmia	r3, {r3, r4}
  80004f8:	4323      	orrs	r3, r4
  80004fa:	d0f1      	beq.n	80004e0 <main+0x370>
-	   		            a_64/b_64;
+	   		            a_64/b_64;																	//divide two random 64-bit integers
 	   		            tick6 = tick6 + timer_stop(previous);
  80004fc:	f9b7 34da 	ldrsh.w	r3, [r7, #1242]	; 0x4da
  8000500:	4618      	mov	r0, r3
@@ -751,7 +751,7 @@ int main(void)
  80006ec:	f8d7 04e0 	ldr.w	r0, [r7, #1248]	; 0x4e0
  80006f0:	f000 fb64 	bl	8000dbc <tickasc>
 
-	   		        tick1 = 0;
+	   		        tick1 = 0;															//copy an 8-byte struct using the assignment operator
  80006f4:	2300      	movs	r3, #0
  80006f6:	f8c7 34f4 	str.w	r3, [r7, #1268]	; 0x4f4
 	   		        previous = timer_start();
@@ -789,7 +789,7 @@ int main(void)
  8000742:	4413      	add	r3, r2
  8000744:	f8c7 34f4 	str.w	r3, [r7, #1268]	; 0x4f4
 
-	   		        tick2 = 0;
+	   		        tick2 = 0;															//copy a 128-byte struct using the assignment operator
  8000748:	2300      	movs	r3, #0
  800074a:	f8c7 34f0 	str.w	r3, [r7, #1264]	; 0x4f0
 	   		        previous = timer_start();
@@ -828,7 +828,7 @@ int main(void)
  8000798:	f8c7 34f0 	str.w	r3, [r7, #1264]	; 0x4f0
 
 
-	   		        tick3 = 0;
+	   		        tick3 = 0;															//copy a 1024-byte struct using the assignment operator
  800079c:	2300      	movs	r3, #0
  800079e:	f8c7 34ec 	str.w	r3, [r7, #1260]	; 0x4ec
 	   		        previous = timer_start();
