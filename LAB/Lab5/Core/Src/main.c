@@ -459,7 +459,7 @@ void StartTask03(void *argument)
 	{
 	  strcpy((char*)cliBufferRX, "\x1b[s");                                            /*save cursor*/
 	  HAL_UART_Transmit(&huart3, cliBufferRX, strlen((char*)cliBufferRX),1000);
-	  strcpy((char*)cliBufferRX, "\x1b[0;0H");                                         //?
+	  strcpy((char*)cliBufferRX, "\x1b[0;0H");
 	  HAL_UART_Transmit(&huart3, cliBufferRX, strlen((char*)cliBufferRX),1000);
       strcpy((char*)cliBufferRX, "period:  ");
       HAL_UART_Transmit(&huart3,cliBufferRX, strlen((char*)cliBufferRX),1000);
@@ -473,7 +473,7 @@ void StartTask03(void *argument)
       cliBufferRX[5]='\0';
       HAL_UART_Transmit(&huart3,cliBufferRX, strlen((char*)cliBufferRX),1000);
 
-      strcpy((char*)cliBufferRX, "\x1b[u");                                            /**/
+      strcpy((char*)cliBufferRX, "\x1b[u");                                            /*恢复光标*/
 	  HAL_UART_Transmit(&huart3, cliBufferRX, strlen((char*)cliBufferRX),1000);
 	  Newperiod = false;
 	}
@@ -534,3 +534,4 @@ void assert_failed(uint8_t *file, uint32_t line)
 #endif /* USE_FULL_ASSERT */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+

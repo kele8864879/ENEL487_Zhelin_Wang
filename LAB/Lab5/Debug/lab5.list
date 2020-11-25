@@ -1035,7 +1035,7 @@ void StartTask03(void *argument)
  800075a:	493a      	ldr	r1, [pc, #232]	; (8000844 <StartTask03+0x110>)
  800075c:	483b      	ldr	r0, [pc, #236]	; (800084c <StartTask03+0x118>)
  800075e:	f001 fb96 	bl	8001e8e <HAL_UART_Transmit>
-	  strcpy((char*)cliBufferRX, "\x1b[0;0H");                                         //?
+	  strcpy((char*)cliBufferRX, "\x1b[0;0H");
  8000762:	4b38      	ldr	r3, [pc, #224]	; (8000844 <StartTask03+0x110>)
  8000764:	4a3a      	ldr	r2, [pc, #232]	; (8000850 <StartTask03+0x11c>)
  8000766:	6810      	ldr	r0, [r2, #0]
@@ -1126,7 +1126,7 @@ void StartTask03(void *argument)
  800080e:	480f      	ldr	r0, [pc, #60]	; (800084c <StartTask03+0x118>)
  8000810:	f001 fb3d 	bl	8001e8e <HAL_UART_Transmit>
 
-      strcpy((char*)cliBufferRX, "\x1b[u");                                            /**/
+      strcpy((char*)cliBufferRX, "\x1b[u");                                            /*恢复光标*/
  8000814:	4b0b      	ldr	r3, [pc, #44]	; (8000844 <StartTask03+0x110>)
  8000816:	4a12      	ldr	r2, [pc, #72]	; (8000860 <StartTask03+0x12c>)
  8000818:	6810      	ldr	r0, [r2, #0]
