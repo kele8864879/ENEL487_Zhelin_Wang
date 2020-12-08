@@ -3,7 +3,7 @@ I do the help command, mode fsm, mode scm, atm x, and error enter detect, and mo
 there are 2 thing is not work very well.
 
 1. if I change the ATM value, the FSM OR SCM will stop. I think it is because I used a global variable as
-the atm value. However, enter FSM or SCM ater enter ATM X, the system will work on X times of regular speed,
+the atm value. However, enter FSM or SCM after enter ATM X, the system will work on X times of regular speed,
 so the ATM function is accompleshed.
 
 2. one blue led flashing has little bug, it is not changed with atm value, but other led all work perfect.
