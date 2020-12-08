@@ -6,7 +6,7 @@ there are 2 thing is not work very well.
 the atm value. However, enter FSM or SCM after enter ATM X, the system will work on X times of regular speed,
 so the ATM function is accompleshed.
 
-2. one blue led flashing has little bug, it is not changed with atm value, but other led all work perfect.
+2. one blue led flashing has little bug, it is not changed with atm value, but other leds all work perfect.
 
 operation guide: I used USART2 to do the project and bitrate is 115200, please use correct putty setting.
 enter help can get the recommanded command that you can enter.
