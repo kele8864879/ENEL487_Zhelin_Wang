@@ -598,10 +598,10 @@ void stateControllerTask(void *argument)
 		  		  }
 		  		  else if (sequence_scm == 1) // 70.5S - 83.5S
 		  		{
-		  			for(int Primary_WW = 0; Primary_WW<4; Primary_WW++)
+		  			for(int Primary_WW = 0; Primary_WW<13; Primary_WW++)
 		  			{
 		  				P_BLUE_TOG;
-						osDelay(13000/x);
+						osDelay(1000/x);
 		  			}
 		  			sequence_scm++;
 		  		}

@@ -1582,7 +1582,7 @@ void stateControllerTask(void *argument)
  8000c2a:	2b01      	cmp	r3, #1
  8000c2c:	d11a      	bne.n	8000c64 <stateControllerTask+0x104>
 		  		{
-		  			for(int Primary_WW = 0; Primary_WW<4; Primary_WW++)
+		  			for(int Primary_WW = 0; Primary_WW<13; Primary_WW++)
  8000c2e:	2300      	movs	r3, #0
  8000c30:	61fb      	str	r3, [r7, #28]
  8000c32:	e010      	b.n	8000c56 <stateControllerTask+0xf6>
@@ -1591,19 +1591,19 @@ void stateControllerTask(void *argument)
  8000c34:	f44f 7100 	mov.w	r1, #512	; 0x200
  8000c38:	4889      	ldr	r0, [pc, #548]	; (8000e60 <stateControllerTask+0x300>)
  8000c3a:	f000 fd11 	bl	8001660 <HAL_GPIO_TogglePin>
-						osDelay(13000/x);
+						osDelay(1000/x);
  8000c3e:	4b8a      	ldr	r3, [pc, #552]	; (8000e68 <stateControllerTask+0x308>)
  8000c40:	681b      	ldr	r3, [r3, #0]
- 8000c42:	f243 22c8 	movw	r2, #13000	; 0x32c8
+ 8000c42:	f44f 727a 	mov.w	r2, #1000	; 0x3e8
  8000c46:	fb92 f3f3 	sdiv	r3, r2, r3
  8000c4a:	4618      	mov	r0, r3
  8000c4c:	f001 ff1e 	bl	8002a8c <osDelay>
-		  			for(int Primary_WW = 0; Primary_WW<4; Primary_WW++)
+		  			for(int Primary_WW = 0; Primary_WW<13; Primary_WW++)
  8000c50:	69fb      	ldr	r3, [r7, #28]
  8000c52:	3301      	adds	r3, #1
  8000c54:	61fb      	str	r3, [r7, #28]
  8000c56:	69fb      	ldr	r3, [r7, #28]
- 8000c58:	2b03      	cmp	r3, #3
+ 8000c58:	2b0c      	cmp	r3, #12
  8000c5a:	ddeb      	ble.n	8000c34 <stateControllerTask+0xd4>
 		  			}
 		  			sequence_scm++;
