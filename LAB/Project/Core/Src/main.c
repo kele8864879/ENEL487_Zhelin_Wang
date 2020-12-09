@@ -369,15 +369,16 @@ void printStringBlocking(const char* message)
   * @retval None
   */
 /* USER CODE END Header_Status_CLI_Task */
+// It is the status cli task, it receive the current running mode and atm value, then shows it on the screen
 void Status_CLI_Task(void *argument)
 {
   /* USER CODE BEGIN 5 */
-	 uint16_t statusMessage;
-	 uint16_t message = 102;
-	 osStatus_t status;
-	 uint16_t x = 1;
-	 int atm_value;
-	 uint8_t period[3];
+	 uint16_t statusMessage;	//take the message from queue
+	 uint16_t message = 102;	//status message, 102 is mean the begin mode is FSM
+	 osStatus_t status;			// check if queue get is OK
+	 uint16_t x = 1;			//transfer the atm value
+	 int atm_value;				// change uint16_x to int, and I will change the int to string
+	 uint8_t period[3];			// save the atm_value transfered string, and it will be show on the putty.
   /* Infinite loop */
   for(;;)
   {
@@ -385,10 +386,10 @@ void Status_CLI_Task(void *argument)
 		  status = osMessageQueueGet(Status_QueueHandle, &statusMessage, NULL, 0U);
 		        if (status == osOK)
 		        {
-		         if(statusMessage == 101 || statusMessage == 102)
+		         if(statusMessage == 101 || statusMessage == 102)//if received message is for status change
 		         {
-		        	message = statusMessage;
-		        	 if (message == 101)
+		        	message = statusMessage;	// transfer data from queue to message
+		        	 if (message == 101)		// scm mode renew
 		        			        {
 		        		 	 	 	 atm_value = x;
 		        		 	 	 	 itoa(atm_value,period,10);
@@ -407,7 +408,7 @@ void Status_CLI_Task(void *argument)
 		        			    	  transmit;
 
 		        			        }
-		        	 else if (message == 102)
+		        	 else if (message == 102)// fsm mode renew
 		        			       		  {
     		 	 	 	 	 	 	 	 atm_value = x;
     		 	 	 	 	 	 	 	 itoa(atm_value,period,10);
@@ -426,10 +427,10 @@ void Status_CLI_Task(void *argument)
 		        				    	  transmit;
 		        			       		  }
 		         }
-		         else
+		         else	// if the received message is for atm X change
 		         {
 		        	 x = statusMessage;
-		        	 if (message == 101)
+		        	 if (message == 101)	// current scm mode
 		        			        {
 		        		 	 	 	 atm_value = x;
 		        		 	 	 	 itoa(atm_value,period,10);
@@ -448,7 +449,7 @@ void Status_CLI_Task(void *argument)
 		        			    	  transmit;
 
 		        			        }
-		        	 else if (message == 102)
+		        	 else if (message == 102)//current fsm mode
 		        			       		  {
     		 	 	 	 	 	 	 	 atm_value = x;
     		 	 	 	 	 	 	 	 itoa(atm_value,period,10);
@@ -483,11 +484,11 @@ void Status_CLI_Task(void *argument)
 * @retval None
 */
 /* USER CODE END Header_RX_CLI_Task */
-void RX_CLI_Task(void *argument)
+void RX_CLI_Task(void *argument) // receive message from host, and send message to control part
 {
   /* USER CODE BEGIN RX_CLI_Task */
 	uint16_t cliMessage;
-	int8_t i=0;
+	int8_t i=0;				//the local position for cliBuffer
 	uint8_t *p;
 	uint8_t cliBufferTX[200];
 	 uint16_t x = 1;
@@ -497,13 +498,13 @@ void RX_CLI_Task(void *argument)
 	  if((HAL_UART_Receive(&huart2,cliBufferRX, 1,300) == HAL_OK))
 	  {
 		  cliBufferTX[i] = cliBufferRX[0];
-		  if( cliBufferTX[i]=='\r')
+		  if( cliBufferTX[i]=='\r')	//	if enter
 		 		  {
 		 			cliBufferTX[i]='\0';
 		 			cliBufferRX[0]='\r';
 		 			cliBufferRX[1]='\n';
 		 			HAL_UART_Transmit(&huart2,cliBufferRX,2,1000);
-					if(strcmp(cliBufferTX,"help")==0)
+					if(strcmp(cliBufferTX,"help")==0)	//execute help command
 					  {
 						  cursor0_0;
 						  transmit;
@@ -514,7 +515,7 @@ void RX_CLI_Task(void *argument)
 				  	  	  cursor10_0;
 				  	  	  transmit;
 					  }
-					else if(strcmp(cliBufferTX,"scm")==0 || strcmp(cliBufferTX,"SCM")==0)
+					else if(strcmp(cliBufferTX,"scm")==0 || strcmp(cliBufferTX,"SCM")==0)//execute scm command
 					  {
 						cliMessage = 101;
 						 if (osMessageQueuePut(CLI_QueueHandle, &cliMessage, 1U, 0U) != osOK)
@@ -522,7 +523,7 @@ void RX_CLI_Task(void *argument)
 								 		                    Error_Handler();
 								 		                }
 					  }
-					else if(strcmp(cliBufferTX,"fsm")==0 || strcmp(cliBufferTX,"FSM")==0)
+					else if(strcmp(cliBufferTX,"fsm")==0 || strcmp(cliBufferTX,"FSM")==0)//execute fsm command
 					  {
 						cliMessage = 102;
 						 if (osMessageQueuePut(CLI_QueueHandle, &cliMessage, 1U, 0U) != osOK)
@@ -531,7 +532,7 @@ void RX_CLI_Task(void *argument)
 								 		                }
 					  }
 					else if((cliBufferTX[0]=='a' && cliBufferTX[1] == 't' && cliBufferTX[2] == 'm' && cliBufferTX[3] == ' ') || (cliBufferTX[0]=='A' && cliBufferTX[1] == 'T' && cliBufferTX[2] == 'M' && cliBufferTX[3] == ' '))
-					  {
+					  {//execute ATM x command
 						cliMessage = 3;
 						uint8_t num[3];
 						num[0] = cliBufferTX[4];
@@ -539,7 +540,7 @@ void RX_CLI_Task(void *argument)
 						num[2] = cliBufferTX[6];
 
 						x = atoi(num);
-						if ((x >= 1) && (x <= 100))
+						if ((x >= 1) && (x <= 100))//make sure x is from 1 to 100
 						{
 							cliMessage = x;
 				 			if (osMessageQueuePut(CLI_QueueHandle, &cliMessage, 1U, 0U) != osOK)
@@ -548,8 +549,8 @@ void RX_CLI_Task(void *argument)
 				 											 		                }
 						}
 						else {
-							invalid_command;
-							HAL_UART_Transmit(&huart2, cliBufferRX, strlen((char*)cliBufferRX),1000);
+							invalid_command;               //execute invalid command (for wrong number x)
+							HAL_UART_Transmit(&huart2, cliBufferRX, strlen((char*)cliBufferRX),1000);	//transfer invalid message
 							transmit;
 				 			cliBufferTX[i]='\0';
 				 			cliBufferRX[0]='\r';
@@ -560,8 +561,8 @@ void RX_CLI_Task(void *argument)
 
 					else
 											{
-											invalid_command;
-											HAL_UART_Transmit(&huart2, cliBufferRX, strlen((char*)cliBufferRX),1000);
+											invalid_command;//execute invalid command
+											HAL_UART_Transmit(&huart2, cliBufferRX, strlen((char*)cliBufferRX),1000);//transfer invalid message
 											transmit;
 								 			cliBufferTX[i]='\0';
 								 			cliBufferRX[0]='\r';
@@ -570,7 +571,7 @@ void RX_CLI_Task(void *argument)
 											}
 		 		    i=0;
 		 		  }
-		  else if( cliBufferTX[i]=='\177')
+		  else if( cliBufferTX[i]=='\177') // if back
 		  			{
 		  			  p=&cliBufferTX[i];
 		  			  HAL_UART_Transmit(&huart2,p,1,1000);
@@ -607,8 +608,8 @@ void stateControllerTask(void *argument)
 	  uint16_t cliMessage;
 		  uint16_t statusMessage = 102;
 		  osStatus_t status;
-		  int sequence_fsm = 0;
-		  int sequence_scm = 0;
+		  int sequence_fsm = 0;//the time sequence the fsm mode at
+		  int sequence_scm = 0;//the time sequence the scm mode at
 		  uint16_t x = 1;
 
 
@@ -660,7 +661,7 @@ void stateControllerTask(void *argument)
 		  		  }
 		  		  else if (sequence_scm == 1) // 70.5S - 83.5S
 		  		{
-		  			for(int Primary_WW = 0; Primary_WW<13; Primary_WW++)
+		  			for(int Primary_WW = 0; Primary_WW<13; Primary_WW++)//blue led flash in 1HZ for 13s
 		  			{
 		  				P_BLUE_TOG;
 						osDelay(1000/x);
@@ -692,7 +693,7 @@ void stateControllerTask(void *argument)
 		  		}
 		  		  else if (sequence_scm == 5)//113s - 121s
 		  		{
-		  			for(int Secondary_WW = 0; Secondary_WW<8; Secondary_WW++)
+		  			for(int Secondary_WW = 0; Secondary_WW<8; Secondary_WW++)//blue led flash in 1HZ for 8s
 		  			{
 		  			S_BLUE_TOG;
 		  			osDelay(1000/x);
@@ -714,7 +715,7 @@ void stateControllerTask(void *argument)
 		  	  }
 		  	  else  if (statusMessage == 102)	//fsm mode
 			  {
-				  if (sequence_fsm == 0)
+				  if (sequence_fsm == 0)//1.5s red led on
 				  {
 					  P_YELLOW_CLOSE;
 					  P_GREEN_CLOSE;
@@ -727,7 +728,7 @@ void stateControllerTask(void *argument)
 					  osDelay(1500/x);
 					  sequence_fsm++;
 				  }
-				  if(sequence_fsm == 1)
+				  if(sequence_fsm == 1)//0.5s red led off.
 				  {
 					  P_RED_TOG;
 					  S_RED_TOG;

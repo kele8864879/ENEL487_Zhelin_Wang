@@ -661,10 +661,10 @@ static void MX_GPIO_Init(void)
  80004e4:	40011000 	.word	0x40011000
 
 080004e8 <Status_CLI_Task>:
-  * @param  argument: Not used
   * @retval None
   */
 /* USER CODE END Header_Status_CLI_Task */
+// It is the status cli task, it receive the current running mode and atm value, then shows it on the screen
 void Status_CLI_Task(void *argument)
 {
  80004e8:	b5b0      	push	{r4, r5, r7, lr}
@@ -672,15 +672,15 @@ void Status_CLI_Task(void *argument)
  80004ec:	af00      	add	r7, sp, #0
  80004ee:	6078      	str	r0, [r7, #4]
   /* USER CODE BEGIN 5 */
-	 uint16_t statusMessage;
-	 uint16_t message = 102;
+	 uint16_t statusMessage;	//take the message from queue
+	 uint16_t message = 102;	//status message, 102 is mean the begin mode is FSM
  80004f0:	2366      	movs	r3, #102	; 0x66
  80004f2:	83fb      	strh	r3, [r7, #30]
-	 osStatus_t status;
-	 uint16_t x = 1;
+	 osStatus_t status;			// check if queue get is OK
+	 uint16_t x = 1;			//transfer the atm value
  80004f4:	2301      	movs	r3, #1
  80004f6:	83bb      	strh	r3, [r7, #28]
-	 uint8_t period[3];
+	 uint8_t period[3];			// save the atm_value transfered string, and it will be show on the putty.
   /* Infinite loop */
   for(;;)
   {
@@ -698,7 +698,7 @@ void Status_CLI_Task(void *argument)
  800050c:	2b00      	cmp	r3, #0
  800050e:	f040 8240 	bne.w	8000992 <Status_CLI_Task+0x4aa>
 		        {
-		         if(statusMessage == 101 || statusMessage == 102)
+		         if(statusMessage == 101 || statusMessage == 102)//if received message is for status change
  8000512:	8a7b      	ldrh	r3, [r7, #18]
  8000514:	2b65      	cmp	r3, #101	; 0x65
  8000516:	d003      	beq.n	8000520 <Status_CLI_Task+0x38>
@@ -706,10 +706,10 @@ void Status_CLI_Task(void *argument)
  800051a:	2b66      	cmp	r3, #102	; 0x66
  800051c:	f040 8126 	bne.w	800076c <Status_CLI_Task+0x284>
 		         {
-		        	message = statusMessage;
+		        	message = statusMessage;	// transfer data from queue to message
  8000520:	8a7b      	ldrh	r3, [r7, #18]
  8000522:	83fb      	strh	r3, [r7, #30]
-		        	 if (message == 101)
+		        	 if (message == 101)		// scm mode renew
  8000524:	8bfb      	ldrh	r3, [r7, #30]
  8000526:	2b65      	cmp	r3, #101	; 0x65
  8000528:	f040 8084 	bne.w	8000634 <Status_CLI_Task+0x14c>
@@ -835,11 +835,11 @@ void Status_CLI_Task(void *argument)
  800062a:	4947      	ldr	r1, [pc, #284]	; (8000748 <Status_CLI_Task+0x260>)
  800062c:	4848      	ldr	r0, [pc, #288]	; (8000750 <Status_CLI_Task+0x268>)
  800062e:	f002 f88e 	bl	800274e <HAL_UART_Transmit>
-		        	 if (message == 101)
+		        	 if (message == 101)		// scm mode renew
  8000632:	e1ad      	b.n	8000990 <Status_CLI_Task+0x4a8>
 
 		        			        }
-		        	 else if (message == 102)
+		        	 else if (message == 102)// fsm mode renew
  8000634:	8bfb      	ldrh	r3, [r7, #30]
  8000636:	2b66      	cmp	r3, #102	; 0x66
  8000638:	f040 81aa 	bne.w	8000990 <Status_CLI_Task+0x4a8>
@@ -965,7 +965,7 @@ void Status_CLI_Task(void *argument)
  800073a:	4903      	ldr	r1, [pc, #12]	; (8000748 <Status_CLI_Task+0x260>)
  800073c:	4804      	ldr	r0, [pc, #16]	; (8000750 <Status_CLI_Task+0x268>)
  800073e:	f002 f806 	bl	800274e <HAL_UART_Transmit>
-		        	 if (message == 101)
+		        	 if (message == 101)		// scm mode renew
  8000742:	e125      	b.n	8000990 <Status_CLI_Task+0x4a8>
  8000744:	20001b0c 	.word	0x20001b0c
  8000748:	20001b50 	.word	0x20001b50
@@ -979,12 +979,12 @@ void Status_CLI_Task(void *argument)
  8000768:	08005c1c 	.word	0x08005c1c
 		        			       		  }
 		         }
-		         else
+		         else	// if the received message is for atm X change
 		         {
 		        	 x = statusMessage;
  800076c:	8a7b      	ldrh	r3, [r7, #18]
  800076e:	83bb      	strh	r3, [r7, #28]
-		        	 if (message == 101)
+		        	 if (message == 101)	// current scm mode
  8000770:	8bfb      	ldrh	r3, [r7, #30]
  8000772:	2b65      	cmp	r3, #101	; 0x65
  8000774:	f040 8084 	bne.w	8000880 <Status_CLI_Task+0x398>
@@ -1113,7 +1113,7 @@ void Status_CLI_Task(void *argument)
  800087e:	e088      	b.n	8000992 <Status_CLI_Task+0x4aa>
 
 		        			        }
-		        	 else if (message == 102)
+		        	 else if (message == 102)//current fsm mode
  8000880:	8bfb      	ldrh	r3, [r7, #30]
  8000882:	2b66      	cmp	r3, #102	; 0x66
  8000884:	f040 8085 	bne.w	8000992 <Status_CLI_Task+0x4aa>
@@ -1240,7 +1240,7 @@ void Status_CLI_Task(void *argument)
  8000988:	4806      	ldr	r0, [pc, #24]	; (80009a4 <Status_CLI_Task+0x4bc>)
  800098a:	f001 fee0 	bl	800274e <HAL_UART_Transmit>
  800098e:	e000      	b.n	8000992 <Status_CLI_Task+0x4aa>
-		        	 if (message == 101)
+		        	 if (message == 101)		// scm mode renew
  8000990:	bf00      	nop
 		         }
 		        }
@@ -1268,7 +1268,7 @@ void Status_CLI_Task(void *argument)
 * @retval None
 */
 /* USER CODE END Header_RX_CLI_Task */
-void RX_CLI_Task(void *argument)
+void RX_CLI_Task(void *argument) // receive message from host, and send message to control part
 {
  80009c0:	b5b0      	push	{r4, r5, r7, lr}
  80009c2:	b0b8      	sub	sp, #224	; 0xe0
@@ -1276,7 +1276,7 @@ void RX_CLI_Task(void *argument)
  80009c6:	6078      	str	r0, [r7, #4]
   /* USER CODE BEGIN RX_CLI_Task */
 	uint16_t cliMessage;
-	int8_t i=0;
+	int8_t i=0;				//the local position for cliBuffer
  80009c8:	2300      	movs	r3, #0
  80009ca:	f887 30df 	strb.w	r3, [r7, #223]	; 0xdf
 	uint8_t *p;
@@ -1304,7 +1304,7 @@ void RX_CLI_Task(void *argument)
  80009f2:	f107 01e0 	add.w	r1, r7, #224	; 0xe0
  80009f6:	440b      	add	r3, r1
  80009f8:	f803 2cd4 	strb.w	r2, [r3, #-212]
-		  if( cliBufferTX[i]=='\r')
+		  if( cliBufferTX[i]=='\r')	//	if enter
  80009fc:	f997 30df 	ldrsb.w	r3, [r7, #223]	; 0xdf
  8000a00:	f107 02e0 	add.w	r2, r7, #224	; 0xe0
  8000a04:	4413      	add	r3, r2
@@ -1332,7 +1332,7 @@ void RX_CLI_Task(void *argument)
  8000a32:	499c      	ldr	r1, [pc, #624]	; (8000ca4 <RX_CLI_Task+0x2e4>)
  8000a34:	489c      	ldr	r0, [pc, #624]	; (8000ca8 <RX_CLI_Task+0x2e8>)
  8000a36:	f001 fe8a 	bl	800274e <HAL_UART_Transmit>
-					if(strcmp(cliBufferTX,"help")==0)
+					if(strcmp(cliBufferTX,"help")==0)	//execute help command
  8000a3a:	f107 030c 	add.w	r3, r7, #12
  8000a3e:	499b      	ldr	r1, [pc, #620]	; (8000cac <RX_CLI_Task+0x2ec>)
  8000a40:	4618      	mov	r0, r3
@@ -1419,7 +1419,7 @@ void RX_CLI_Task(void *argument)
  8000b0a:	f001 fe20 	bl	800274e <HAL_UART_Transmit>
  8000b0e:	e11c      	b.n	8000d4a <RX_CLI_Task+0x38a>
 					  }
-					else if(strcmp(cliBufferTX,"scm")==0 || strcmp(cliBufferTX,"SCM")==0)
+					else if(strcmp(cliBufferTX,"scm")==0 || strcmp(cliBufferTX,"SCM")==0)//execute scm command
  8000b10:	f107 030c 	add.w	r3, r7, #12
  8000b14:	496a      	ldr	r1, [pc, #424]	; (8000cc0 <RX_CLI_Task+0x300>)
  8000b16:	4618      	mov	r0, r3
@@ -1455,7 +1455,7 @@ void RX_CLI_Task(void *argument)
  8000b56:	e0f8      	b.n	8000d4a <RX_CLI_Task+0x38a>
 								 		                }
 					  }
-					else if(strcmp(cliBufferTX,"fsm")==0 || strcmp(cliBufferTX,"FSM")==0)
+					else if(strcmp(cliBufferTX,"fsm")==0 || strcmp(cliBufferTX,"FSM")==0)//execute fsm command
  8000b58:	f107 030c 	add.w	r3, r7, #12
  8000b5c:	495b      	ldr	r1, [pc, #364]	; (8000ccc <RX_CLI_Task+0x30c>)
  8000b5e:	4618      	mov	r0, r3
@@ -1516,7 +1516,7 @@ void RX_CLI_Task(void *argument)
  8000bd0:	7bfb      	ldrb	r3, [r7, #15]
  8000bd2:	2b20      	cmp	r3, #32
  8000bd4:	f040 8080 	bne.w	8000cd8 <RX_CLI_Task+0x318>
-					  {
+					  {//execute ATM x command
 						cliMessage = 3;
  8000bd8:	2303      	movs	r3, #3
  8000bda:	f8a7 30d6 	strh.w	r3, [r7, #214]	; 0xd6
@@ -1537,7 +1537,7 @@ void RX_CLI_Task(void *argument)
  8000bf0:	f004 fe74 	bl	80058dc <atoi>
  8000bf4:	4603      	mov	r3, r0
  8000bf6:	f8a7 30dc 	strh.w	r3, [r7, #220]	; 0xdc
-						if ((x >= 1) && (x <= 100))
+						if ((x >= 1) && (x <= 100))//make sure x is from 1 to 100
  8000bfa:	f8b7 30dc 	ldrh.w	r3, [r7, #220]	; 0xdc
  8000bfe:	2b00      	cmp	r3, #0
  8000c00:	d015      	beq.n	8000c2e <RX_CLI_Task+0x26e>
@@ -1566,7 +1566,7 @@ void RX_CLI_Task(void *argument)
 				 											 		                }
 						}
 						else {
-							invalid_command;
+							invalid_command;               //execute invalid command (for wrong number x)
  8000c2e:	4a1d      	ldr	r2, [pc, #116]	; (8000ca4 <RX_CLI_Task+0x2e4>)
  8000c30:	4b28      	ldr	r3, [pc, #160]	; (8000cd4 <RX_CLI_Task+0x314>)
  8000c32:	4615      	mov	r5, r2
@@ -1578,7 +1578,7 @@ void RX_CLI_Task(void *argument)
  8000c3e:	60eb      	str	r3, [r5, #12]
  8000c40:	8823      	ldrh	r3, [r4, #0]
  8000c42:	822b      	strh	r3, [r5, #16]
-							HAL_UART_Transmit(&huart2, cliBufferRX, strlen((char*)cliBufferRX),1000);
+							HAL_UART_Transmit(&huart2, cliBufferRX, strlen((char*)cliBufferRX),1000);	//transfer invalid message
  8000c44:	4817      	ldr	r0, [pc, #92]	; (8000ca4 <RX_CLI_Task+0x2e4>)
  8000c46:	f7ff fa8d 	bl	8000164 <strlen>
  8000c4a:	4603      	mov	r3, r0
@@ -1617,7 +1617,7 @@ void RX_CLI_Task(void *argument)
  8000c98:	4902      	ldr	r1, [pc, #8]	; (8000ca4 <RX_CLI_Task+0x2e4>)
  8000c9a:	4803      	ldr	r0, [pc, #12]	; (8000ca8 <RX_CLI_Task+0x2e8>)
  8000c9c:	f001 fd57 	bl	800274e <HAL_UART_Transmit>
-					  {
+					  {//execute ATM x command
  8000ca0:	e053      	b.n	8000d4a <RX_CLI_Task+0x38a>
  8000ca2:	e052      	b.n	8000d4a <RX_CLI_Task+0x38a>
  8000ca4:	20001c1c 	.word	0x20001c1c
@@ -1638,7 +1638,7 @@ void RX_CLI_Task(void *argument)
 
 					else
 											{
-											invalid_command;
+											invalid_command;//execute invalid command
  8000cd8:	4a4e      	ldr	r2, [pc, #312]	; (8000e14 <RX_CLI_Task+0x454>)
  8000cda:	4b4f      	ldr	r3, [pc, #316]	; (8000e18 <RX_CLI_Task+0x458>)
  8000cdc:	4615      	mov	r5, r2
@@ -1650,7 +1650,7 @@ void RX_CLI_Task(void *argument)
  8000ce8:	60eb      	str	r3, [r5, #12]
  8000cea:	8823      	ldrh	r3, [r4, #0]
  8000cec:	822b      	strh	r3, [r5, #16]
-											HAL_UART_Transmit(&huart2, cliBufferRX, strlen((char*)cliBufferRX),1000);
+											HAL_UART_Transmit(&huart2, cliBufferRX, strlen((char*)cliBufferRX),1000);//transfer invalid message
  8000cee:	4849      	ldr	r0, [pc, #292]	; (8000e14 <RX_CLI_Task+0x454>)
  8000cf0:	f7ff fa38 	bl	8000164 <strlen>
  8000cf4:	4603      	mov	r3, r0
@@ -1695,7 +1695,7 @@ void RX_CLI_Task(void *argument)
  8000d4c:	f887 30df 	strb.w	r3, [r7, #223]	; 0xdf
  8000d50:	e05c      	b.n	8000e0c <RX_CLI_Task+0x44c>
 		 		  }
-		  else if( cliBufferTX[i]=='\177')
+		  else if( cliBufferTX[i]=='\177') // if back
  8000d52:	f997 30df 	ldrsb.w	r3, [r7, #223]	; 0xdf
  8000d56:	f107 02e0 	add.w	r2, r7, #224	; 0xe0
  8000d5a:	4413      	add	r3, r2
@@ -1801,10 +1801,10 @@ void stateControllerTask(void *argument)
  8000e28:	2366      	movs	r3, #102	; 0x66
  8000e2a:	81bb      	strh	r3, [r7, #12]
 		  osStatus_t status;
-		  int sequence_fsm = 0;
+		  int sequence_fsm = 0;//the time sequence the fsm mode at
  8000e2c:	2300      	movs	r3, #0
  8000e2e:	627b      	str	r3, [r7, #36]	; 0x24
-		  int sequence_scm = 0;
+		  int sequence_scm = 0;//the time sequence the scm mode at
  8000e30:	2300      	movs	r3, #0
  8000e32:	623b      	str	r3, [r7, #32]
 		  uint16_t x = 1;
@@ -1948,7 +1948,7 @@ void stateControllerTask(void *argument)
  8000f1a:	2b01      	cmp	r3, #1
  8000f1c:	d11a      	bne.n	8000f54 <stateControllerTask+0x134>
 		  		{
-		  			for(int Primary_WW = 0; Primary_WW<13; Primary_WW++)
+		  			for(int Primary_WW = 0; Primary_WW<13; Primary_WW++)//blue led flash in 1HZ for 13s
  8000f1e:	2300      	movs	r3, #0
  8000f20:	61fb      	str	r3, [r7, #28]
  8000f22:	e010      	b.n	8000f46 <stateControllerTask+0x126>
@@ -1964,7 +1964,7 @@ void stateControllerTask(void *argument)
  8000f36:	fb93 f3f2 	sdiv	r3, r3, r2
  8000f3a:	4618      	mov	r0, r3
  8000f3c:	f001 ff20 	bl	8002d80 <osDelay>
-		  			for(int Primary_WW = 0; Primary_WW<13; Primary_WW++)
+		  			for(int Primary_WW = 0; Primary_WW<13; Primary_WW++)//blue led flash in 1HZ for 13s
  8000f40:	69fb      	ldr	r3, [r7, #28]
  8000f42:	3301      	adds	r3, #1
  8000f44:	61fb      	str	r3, [r7, #28]
@@ -2077,7 +2077,7 @@ void stateControllerTask(void *argument)
  800100e:	2b05      	cmp	r3, #5
  8001010:	d119      	bne.n	8001046 <stateControllerTask+0x226>
 		  		{
-		  			for(int Secondary_WW = 0; Secondary_WW<8; Secondary_WW++)
+		  			for(int Secondary_WW = 0; Secondary_WW<8; Secondary_WW++)//blue led flash in 1HZ for 8s
  8001012:	2300      	movs	r3, #0
  8001014:	61bb      	str	r3, [r7, #24]
  8001016:	e00f      	b.n	8001038 <stateControllerTask+0x218>
@@ -2093,7 +2093,7 @@ void stateControllerTask(void *argument)
  8001028:	fb93 f3f2 	sdiv	r3, r3, r2
  800102c:	4618      	mov	r0, r3
  800102e:	f001 fea7 	bl	8002d80 <osDelay>
-		  			for(int Secondary_WW = 0; Secondary_WW<8; Secondary_WW++)
+		  			for(int Secondary_WW = 0; Secondary_WW<8; Secondary_WW++)//blue led flash in 1HZ for 8s
  8001032:	69bb      	ldr	r3, [r7, #24]
  8001034:	3301      	adds	r3, #1
  8001036:	61bb      	str	r3, [r7, #24]
@@ -2164,7 +2164,7 @@ void stateControllerTask(void *argument)
  80010ae:	2b66      	cmp	r3, #102	; 0x66
  80010b0:	f47f aec2 	bne.w	8000e38 <stateControllerTask+0x18>
 			  {
-				  if (sequence_fsm == 0)
+				  if (sequence_fsm == 0)//1.5s red led on
  80010b4:	6a7b      	ldr	r3, [r7, #36]	; 0x24
  80010b6:	2b00      	cmp	r3, #0
  80010b8:	d137      	bne.n	800112a <stateControllerTask+0x30a>
@@ -2221,7 +2221,7 @@ void stateControllerTask(void *argument)
  8001126:	3301      	adds	r3, #1
  8001128:	627b      	str	r3, [r7, #36]	; 0x24
 				  }
-				  if(sequence_fsm == 1)
+				  if(sequence_fsm == 1)//0.5s red led off.
  800112a:	6a7b      	ldr	r3, [r7, #36]	; 0x24
  800112c:	2b01      	cmp	r3, #1
  800112e:	f47f ae83 	bne.w	8000e38 <stateControllerTask+0x18>
