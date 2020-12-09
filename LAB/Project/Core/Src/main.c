@@ -80,7 +80,7 @@ const osMessageQueueAttr_t Status_Queue_attributes = {
   .name = "Status_Queue"
 };
 /* USER CODE BEGIN PV */
-int x = 1;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -373,10 +373,11 @@ void Status_CLI_Task(void *argument)
 {
   /* USER CODE BEGIN 5 */
 	 uint16_t statusMessage;
-	 uint16_t message;
+	 uint16_t message = 102;
 	 osStatus_t status;
+	 uint16_t x = 1;
+	 int atm_value;
 	 uint8_t period[3];
-
   /* Infinite loop */
   for(;;)
   {
@@ -384,10 +385,13 @@ void Status_CLI_Task(void *argument)
 		  status = osMessageQueueGet(Status_QueueHandle, &statusMessage, NULL, 0U);
 		        if (status == osOK)
 		        {
+		         if(statusMessage == 101 || statusMessage == 102)
+		         {
 		        	message = statusMessage;
-		        	 if (message == 1)
+		        	 if (message == 101)
 		        			        {
-		        		 	 	 	 itoa(x,period,10);
+		        		 	 	 	 atm_value = x;
+		        		 	 	 	 itoa(atm_value,period,10);
 		        		 	 	 	save_cursor;
 		        		 	 	 	transmit;
 		        			  		  cursor0_0;
@@ -403,9 +407,10 @@ void Status_CLI_Task(void *argument)
 		        			    	  transmit;
 
 		        			        }
-		        	 else if (message == 2)
+		        	 else if (message == 102)
 		        			       		  {
-		        		 	 	 	 	 itoa(x,period,10);
+    		 	 	 	 	 	 	 	 atm_value = x;
+    		 	 	 	 	 	 	 	 itoa(atm_value,period,10);
 		        		 	 	 	 	save_cursor;
 		        		 	 	 	 	transmit;
 		        				  		  cursor0_0;
@@ -420,6 +425,48 @@ void Status_CLI_Task(void *argument)
 			        			    	  go_to_saved_cursor_point;
 		        				    	  transmit;
 		        			       		  }
+		         }
+		         else
+		         {
+		        	 x = statusMessage;
+		        	 if (message == 101)
+		        			        {
+		        		 	 	 	 atm_value = x;
+		        		 	 	 	 itoa(atm_value,period,10);
+		        		 	 	 	save_cursor;
+		        		 	 	 	transmit;
+		        			  		  cursor0_0;
+		        			  		  transmit;
+		        			  		clean_line;
+		        			  		  transmit;
+		        			  		  strcpy(( char*)cliBufferTX, "scm mode. ");
+		        			    	  HAL_UART_Transmit(&huart2, cliBufferTX, strlen((char*)cliBufferTX),1000);
+		        			    	  HAL_UART_Transmit(&huart2, period, strlen((char*)period),1000);
+		        			  		  strcpy(( char*)cliBufferTX, " is the atm value");
+		        			    	  HAL_UART_Transmit(&huart2, cliBufferTX, strlen((char*)cliBufferTX),1000);
+		        			    	  go_to_saved_cursor_point;
+		        			    	  transmit;
+
+		        			        }
+		        	 else if (message == 102)
+		        			       		  {
+    		 	 	 	 	 	 	 	 atm_value = x;
+    		 	 	 	 	 	 	 	 itoa(atm_value,period,10);
+		        		 	 	 	 	save_cursor;
+		        		 	 	 	 	transmit;
+		        				  		  cursor0_0;
+		        				  		  transmit;
+		        				  		clean_line;
+		        				  		  transmit;
+		        				  		  strcpy(( char*)cliBufferTX, "fsm mode. ");
+		        				    	  HAL_UART_Transmit(&huart2, cliBufferTX, strlen((char*)cliBufferTX),1000);
+			        			    	  HAL_UART_Transmit(&huart2, period, strlen((char*)period),1000);
+			        			  		  strcpy(( char*)cliBufferTX, " is the atm value");
+			        			    	  HAL_UART_Transmit(&huart2, cliBufferTX, strlen((char*)cliBufferTX),1000);
+			        			    	  go_to_saved_cursor_point;
+		        				    	  transmit;
+		        			       		  }
+		         }
 		        }
 
 
@@ -443,6 +490,7 @@ void RX_CLI_Task(void *argument)
 	int8_t i=0;
 	uint8_t *p;
 	uint8_t cliBufferTX[200];
+	 uint16_t x = 1;
   /* Infinite loop */
   for(;;)
   {
@@ -466,23 +514,23 @@ void RX_CLI_Task(void *argument)
 				  	  	  cursor10_0;
 				  	  	  transmit;
 					  }
-					else if(strcmp(cliBufferTX,"scm")==0)
+					else if(strcmp(cliBufferTX,"scm")==0 || strcmp(cliBufferTX,"SCM")==0)
 					  {
-						cliMessage = 1;
+						cliMessage = 101;
 						 if (osMessageQueuePut(CLI_QueueHandle, &cliMessage, 1U, 0U) != osOK)
 								 		                {
 								 		                    Error_Handler();
 								 		                }
 					  }
-					else if(strcmp(cliBufferTX,"fsm")==0)
+					else if(strcmp(cliBufferTX,"fsm")==0 || strcmp(cliBufferTX,"FSM")==0)
 					  {
-						cliMessage = 2;
+						cliMessage = 102;
 						 if (osMessageQueuePut(CLI_QueueHandle, &cliMessage, 1U, 0U) != osOK)
 								 		                {
 								 		                    Error_Handler();
 								 		                }
 					  }
-					else if(cliBufferTX[0]=='a' && cliBufferTX[1] == 't' && cliBufferTX[2] == 'm' && cliBufferTX[3] == ' ')
+					else if((cliBufferTX[0]=='a' && cliBufferTX[1] == 't' && cliBufferTX[2] == 'm' && cliBufferTX[3] == ' ') || (cliBufferTX[0]=='A' && cliBufferTX[1] == 'T' && cliBufferTX[2] == 'M' && cliBufferTX[3] == ' '))
 					  {
 						cliMessage = 3;
 						uint8_t num[3];
@@ -493,6 +541,7 @@ void RX_CLI_Task(void *argument)
 						x = atoi(num);
 						if ((x >= 1) && (x <= 100))
 						{
+							cliMessage = x;
 				 			if (osMessageQueuePut(CLI_QueueHandle, &cliMessage, 1U, 0U) != osOK)
 				 											 		                {
 				 											 		                    Error_Handler();
@@ -556,10 +605,11 @@ void RX_CLI_Task(void *argument)
 void stateControllerTask(void *argument)
 {
 	  uint16_t cliMessage;
-		  uint16_t statusMessage = 2;
+		  uint16_t statusMessage = 102;
 		  osStatus_t status;
 		  int sequence_fsm = 0;
 		  int sequence_scm = 0;
+		  uint16_t x = 1;
 
 
 		    //Send a status message straight away
@@ -573,14 +623,26 @@ void stateControllerTask(void *argument)
 		  status = osMessageQueueGet(CLI_QueueHandle, &cliMessage, 1U, 0U);
 		  if (status == osOK)
 		  {
-			  statusMessage = cliMessage;
-			  if (osMessageQueuePut(Status_QueueHandle, &statusMessage, 1U, 0U) != osOK)
-			  		    {
-			  		        Error_Handler();
-			  		    }
+			  if(cliMessage == 101 || cliMessage == 102)
+			  {
+				  statusMessage = cliMessage;
+				  if (osMessageQueuePut(Status_QueueHandle, &statusMessage, 1U, 0U) != osOK)
+				  		    {
+				  		        Error_Handler();
+				  		    }
+			  }
+			  else
+			  {
+				  x = cliMessage;
+				  if (osMessageQueuePut(Status_QueueHandle, &x, 1U, 0U) != osOK)
+				  				  		    {
+				  				  		        Error_Handler();
+				  				  		    }
+			  }
+
 		  }
 
-		  	  if (statusMessage == 1)	// 0S - 70.5S
+		  	  if (statusMessage == 101)	// 0S - 70.5S
 		  	  {
 		  		  if (sequence_scm == 0)
 		  		  {
@@ -650,7 +712,7 @@ void stateControllerTask(void *argument)
 
 		  		}
 		  	  }
-		  	  else  if (statusMessage == 2)	//fsm mode
+		  	  else  if (statusMessage == 102)	//fsm mode
 			  {
 				  if (sequence_fsm == 0)
 				  {
